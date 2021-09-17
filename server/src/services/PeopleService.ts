@@ -1,5 +1,7 @@
-export default class PeopleService {
-  static async get() {
+class PeopleService {
+  static async getPeople() {
+
   }
 }
 
+export default PeopleService;

@@ -11,9 +11,8 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Application works!');
 });
 
-app.use(API.PEOPLE_API, peopleRouter)
+app.use(API.PEOPLE_API, peopleRouter);
 
 app.listen(PORT, () => {
   console.log(`Application started on: http://localhost:${PORT}`);
 });
-

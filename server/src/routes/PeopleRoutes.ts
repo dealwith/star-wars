@@ -3,6 +3,6 @@ import PeopleController from "../controllers/PeopleController";
 
 const peopleRouter = Router();
 
-peopleRouter.get(`/sign-in`, PeopleController.get());
+peopleRouter.get(`/sign-in`, PeopleController.getPeople);
 
 export default peopleRouter;

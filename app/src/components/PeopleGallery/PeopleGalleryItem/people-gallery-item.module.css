@@ -1,0 +1,15 @@
+.container {
+	padding: 7px;
+	border-radius: 7px;
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 5px;
+	border: 1px solid black;
+	color: white;
+	font-size: 20px;
+	transition: all 0.2s linear;
+}
+
+.container:hover {
+	transform: scale(1.02);
+}
