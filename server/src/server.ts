@@ -3,9 +3,12 @@ import { Request, Response } from 'express';
 
 import peopleRouter from './routes/PeopleRoutes';
 import { API } from './constants';
+import cors from 'cors';
 
 const app = express();
-const PORT = 8080;
+const PORT = 5000;
+
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Application works!');

@@ -1,3 +1,13 @@
-.item {
+.component {
 	border-bottom: 2px solid black;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.buttonContainer > :first-child {
+	margin-right: 15px;
 }

@@ -1,9 +1,14 @@
 import axios from 'axios';
+import { API } from 'constants/api';
 
-import { IPeopleRes } from 'interfaces';
+import { IPeople, IServerResponse, TPeopleRes } from 'interfaces';
 
 export class PeopleServices {
-	static getPeople(){
-		return axios.get<IPeopleRes>('https://swapi.py4e.com/api/people/');
+	static getPeople() {
+		return axios.get<TPeopleRes>(API.PEOPLE.ORIGIN);
+	}
+
+	static getPeopleById(id: string) {
+		return axios.get<IServerResponse<IPeople>>(API.PEOPLE.EXACT(id));
 	}
 }

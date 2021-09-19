@@ -1,2 +1,3 @@
 export * from './Dictionary';
-export * from './People';
+export * from './people';
+export * from './network';

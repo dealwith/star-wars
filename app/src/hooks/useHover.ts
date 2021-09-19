@@ -9,6 +9,7 @@ export const useHover = <T>(): [MutableRefObject<T>, boolean] => {
 
 	useEffect(() => {
 		const node: any = ref.current;
+
 		if (node) {
 			node.addEventListener("mouseover", handleMouseOver);
 			node.addEventListener("mouseout", handleMouseOut);
@@ -18,6 +19,7 @@ export const useHover = <T>(): [MutableRefObject<T>, boolean] => {
 				node.removeEventListener("mouseout", handleMouseOut);
 			};
 		}
+
 	}, [ref.current]);
 
 	return [ref, value];
