@@ -59,8 +59,6 @@ export default class PeopleController {
 
       const limitedPeople = await PeopleService.getLimitedPeople(page as string);
 
-      console.log(limitedPeople);
-
       if (limitedPeople.data.count > 0) {
         util.setSuccess(200, "Limited people retrieved", limitedPeople.data);
       } else {
