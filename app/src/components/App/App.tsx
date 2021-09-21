@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
 	Switch,
 	Route,
@@ -6,12 +7,24 @@ import {
 import { ROUTES } from 'constants/index';
 import { SortProvider } from 'providers';
 
-import { HomePage } from 'pages';
-import { Container, Header, PeopleGalleryItemFullInfo } from 'components';
+import {
+  Container,
+  Header,
+  PeopleGallery,
+  PeopleGalleryItemFullInfo
+} from 'components';
 
 import styles from './app.module.css'
 
+
+export const initialPaginationState = {
+  currentPage: 1,
+  totalPages: 1,
+};
+
 export const App = () => {
+  const [pagination, setPagination] = useState(initialPaginationState);
+
   return (
     <div className="App">
       <SortProvider>
@@ -19,7 +32,13 @@ export const App = () => {
         <main className={styles.main}>
           <Container>
             <Switch>
-              <Route exact path={ROUTES.HOME} component={HomePage} />
+              <Route exact path={ROUTES.HOME}>
+                <PeopleGallery
+                  totalPages={pagination.totalPages}
+                  currentPage={pagination.currentPage}
+                  setPagination={setPagination}
+                />
+              </Route>
               <Route exact path={ROUTES.EXACT_PEOPLE} component={PeopleGalleryItemFullInfo} />
             </Switch>
           </Container>

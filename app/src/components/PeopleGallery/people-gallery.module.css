@@ -3,3 +3,8 @@
 	grid-template-columns: repeat(3, minmax(100px, 1fr));
 	gap: 20px;
 }
+
+.paginationContainer {
+	width: fit-content;
+	margin: 20px auto 0;
+}

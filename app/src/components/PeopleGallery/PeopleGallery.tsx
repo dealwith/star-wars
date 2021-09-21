@@ -1,32 +1,52 @@
+import { FunctionComponent, useEffect, useState } from "react";
+
 import { IPeople } from "interfaces";
-import { useEffect, useState } from "react";
 
 import { PeopleServices } from "services";
-
-import { PeopleGalleryItem } from "./PeopleGalleryItem";
-
-import { useSort } from "hooks";
-
-import styles from './people-gallery.module.css'
+import { PAGINATION } from "constants/pagination";
 import { getHumanYearFromSWYear } from "./utils";
 
-export const PeopleGallery = () => {
+import { Pagination } from "components";
+import { PeopleGalleryItem } from "./PeopleGalleryItem";
+import { useSort } from "hooks";
+
+import { initialPaginationState } from 'components/App'
+
+import styles from './people-gallery.module.css'
+
+type TProps = {
+	currentPage: typeof initialPaginationState.currentPage;
+	totalPages: typeof initialPaginationState.totalPages;
+	setPagination: React.Dispatch<React.SetStateAction<typeof initialPaginationState>>
+}
+
+export const PeopleGallery: FunctionComponent<TProps> = ({ currentPage, totalPages, setPagination }) => {
 	const [gallery, setGallery] = useState<IPeople[]>([]);
-	const { isSortByAge, isSortByName, isFirstlySortedByAge, isFirstlySortedByName } = useSort()
+
+	const {
+		isSortByAge,
+		isSortByName,
+		isFirstlySortedByAge,
+		isFirstlySortedByName
+	} = useSort();
 
 	useEffect(() => {
 		try {
 			const fetchData = async () => {
-				const people = await PeopleServices.getPeople();
+				const limitedPeopleRes = await PeopleServices.getLimitedPeople(currentPage);
+				const serverData = limitedPeopleRes?.data?.data;
 
-				setGallery(people.data.data);
+				const totalPages = Math.ceil(serverData?.count/PAGINATION.PAGE_SIZE);
+
+				setGallery(serverData?.results);
+				setPagination(state => ({ ...state, totalPages }));
 			};
 
 			fetchData();
 		} catch (err) {
 			console.error(err.message);
 		}
-	}, []);
+	}, [currentPage]);
 
 	useEffect(() => {
 		let galleryData = gallery.slice();
@@ -97,11 +117,41 @@ export const PeopleGallery = () => {
 			}
 		}
 
-	}, [isSortByAge, isSortByName, isFirstlySortedByAge, isFirstlySortedByName])
+	}, [isSortByAge, isSortByName, isFirstlySortedByAge, isFirstlySortedByName]);
+
+	const handleNext = () => {
+		if (currentPage === totalPages)
+			return setPagination(state => ({...state, currentPage: initialPaginationState.currentPage}));
+
+		setPagination(state => ({...state, currentPage: state.currentPage + 1}));
+	};
+
+	const handlePrev = () => {
+		if (currentPage === 1)
+			return setPagination(state => ({...state, currentPage: state.totalPages }));
+
+		setPagination(state => ({...state, currentPage: state.currentPage - 1}));
+	};
+
+	const handlePageClick = (pageNumber: number) => {
+		setPagination(state => ({...state, currentPage: pageNumber}));
+	};
+
 
 	return (
-		<section className={styles.container}>
-			{gallery.map(galleryItemData => <PeopleGalleryItem key={galleryItemData.url} {...galleryItemData} />)}
+		<section>
+			<div className={styles.container}>
+				{gallery.map(galleryItemData => <PeopleGalleryItem key={galleryItemData.url} {...galleryItemData} />)}
+			</div>
+			<div className={styles.paginationContainer}>
+				<Pagination
+					totalPages={totalPages}
+					currentPage={currentPage}
+					handleNext={handleNext}
+					handlePrev={handlePrev}
+					handlePageClick={handlePageClick}
+				/>
+			</div>
 		</section>
-	)
-}
+	);
+};

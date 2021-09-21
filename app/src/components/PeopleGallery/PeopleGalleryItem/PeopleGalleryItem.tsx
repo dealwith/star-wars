@@ -39,7 +39,8 @@ export const PeopleGalleryItem: FunctionComponent<IProps> = ({
 		...(isHovered && {boxShadow: `${background.match(regex)[0]} 1px 2px 8px 4px`})
 	};
 
-	const link = ROUTES.PEOPLE_ID(url?.slice(-2, -1));
+	const swapiPeopleUrl = 'https://swapi.py4e.com/api/people/'
+	const link = ROUTES.PEOPLE_ID(url?.replace(swapiPeopleUrl, ''));
 
 	const getHumanDate = (time) => {
 		const date = new Date(time);

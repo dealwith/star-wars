@@ -5,4 +5,5 @@ export * from './Header';
 export * from './Image';
 export * from './Logo';
 export * from './PeopleGallery';
+export * from './Pagination';
 export * from './Span';

@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import { Button, Container, Logo } from 'components';
+import { ButtonSW, Container, Logo } from 'components';
 import { useSort } from 'hooks';
 
 import styles from './header.module.css';
@@ -13,12 +13,12 @@ export const Header: FunctionComponent = () => {
 			<Container className={styles.container}>
 				<Logo />
 				<div className={styles.buttonContainer}>
-					<Button onClick={toggleSortByName} alternativeText='Sort by name'>
+					<ButtonSW onClick={toggleSortByName} alternativeText='Sort by name'>
 						Name
-					</Button>
-					<Button onClick={toggleSortByAge} alternativeText='Sort by age'>
+					</ButtonSW>
+					<ButtonSW onClick={toggleSortByAge} alternativeText='Sort by age'>
 						Age
-					</Button>
+					</ButtonSW>
 				</div>
 			</Container>
 		</header>

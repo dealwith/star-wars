@@ -5,5 +5,6 @@ export const API = {
 	PEOPLE: {
 		ORIGIN: BASIC_PEOPLE_API,
 		EXACT: (id: string) => `${BASIC_PEOPLE_API}/${id}`,
+		LIMIT_PAGE: (pageNumber: number) => `${BASIC_PEOPLE_API}/limit?page=${pageNumber}`,
 	}
 };

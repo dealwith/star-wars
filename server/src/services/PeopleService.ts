@@ -10,6 +10,10 @@ class PeopleService {
   static getPeopleById(id: string) {
     return axios.get<IPeople>(`https://swapi.py4e.com/api/people/${id}`);
   }
+
+  static getLimitedPeople(pageNumber: string) {
+    return axios.get<any>(`https://swapi.py4e.com/api/people/?page=${pageNumber}`);
+  }
 }
 
 export default PeopleService;

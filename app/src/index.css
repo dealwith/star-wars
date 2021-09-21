@@ -31,6 +31,10 @@ fieldset {
 	border: 0;
 }
 
+button {
+	border: none;
+}
+
 ul {
 	list-style-type: none;
 	margin-block-start: 0;

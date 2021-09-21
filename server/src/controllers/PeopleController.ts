@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import fs from 'fs';
 
 import PeopleService from '../services/PeopleService';
 import Util from '../utils/Util';
@@ -48,6 +47,31 @@ export default class PeopleController {
       util.setError(404, err.message);
 
       return util.send(res);
+    }
+  }
+
+  static async getLimitedPeople(req: Request, res: Response) {
+    let { page } = req.query;
+
+    try {
+      if (!page)
+        page = String(1);
+
+      const limitedPeople = await PeopleService.getLimitedPeople(page as string);
+
+      console.log(limitedPeople);
+
+      if (limitedPeople.data.count > 0) {
+        util.setSuccess(200, "Limited people retrieved", limitedPeople.data);
+      } else {
+        util.setSuccess(200, "No people found");
+      }
+
+      return util.send(res);
+    } catch (err: any) {
+      util.setError(400, err.message);
+
+      util.send(res);
     }
   }
 }
