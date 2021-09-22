@@ -20,14 +20,20 @@ type TProps = {
 	setPagination: React.Dispatch<React.SetStateAction<typeof initialPaginationState>>
 }
 
-export const PeopleGallery: FunctionComponent<TProps> = ({ currentPage, totalPages, setPagination }) => {
+export const PeopleGallery: FunctionComponent<TProps> = ({
+	currentPage,
+	totalPages,
+	setPagination
+}) => {
 	const [gallery, setGallery] = useState<IPeople[]>([]);
 
 	const {
 		isSortByAge,
 		isSortByName,
 		isFirstlySortedByAge,
-		isFirstlySortedByName
+		isFirstlySortedByName,
+		setIsFirstlySortedByName,
+		setIsFirstlySortedByAge
 	} = useSort();
 
 	useEffect(() => {
@@ -52,44 +58,35 @@ export const PeopleGallery: FunctionComponent<TProps> = ({ currentPage, totalPag
 		let galleryData = gallery.slice();
 
 		if (isFirstlySortedByAge) {
+			setIsFirstlySortedByName(false);
+
+			const dataWithoutUnkownYear = galleryData.filter(item => item.birth_year !== 'unknown');
+			const unknownYearData = galleryData.filter(item => item.birth_year === 'unknown')
+
 			if (isSortByAge) {
-				galleryData.sort((a, b) => {
+				dataWithoutUnkownYear.sort((a, b) => {
 					const yearA = getHumanYearFromSWYear(a.birth_year);
 					const yearB = getHumanYearFromSWYear(b.birth_year);
 
-					if (yearA === 'unknown')
-						return -1;
+					return +yearA - +yearB;
 
-					if (yearA < yearB)
-						return -1;
-
-					if (yearA > yearB)
-						return 1;
-
-					return 0;
 				});
-				setGallery(galleryData)
+
+				setGallery([...dataWithoutUnkownYear, ...unknownYearData])
 			} else {
-				galleryData.sort((a, b) => {
+				dataWithoutUnkownYear.sort((a, b) => {
 					const yearA = getHumanYearFromSWYear(a.birth_year);
 					const yearB = getHumanYearFromSWYear(b.birth_year);
 
-					if (yearA === 'unknown')
-						return 1;
-
-					if (yearA < yearB)
-						return 1;
-
-					if (yearA > yearB)
-						return -1;
-
-					return 0;
+					return +yearB - +yearA;
 				});
-				setGallery(galleryData)
+				setGallery([...unknownYearData, ...dataWithoutUnkownYear])
 			}
 		}
 
 		if (isFirstlySortedByName) {
+			setIsFirstlySortedByAge(false);
+
 			if (isSortByName) {
 				galleryData.sort((a, b) => {
 					if (a.name < b.name)

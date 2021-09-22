@@ -16,7 +16,6 @@ import {
 
 import styles from './app.module.css'
 
-
 export const initialPaginationState = {
   currentPage: 1,
   totalPages: 1,

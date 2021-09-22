@@ -23,5 +23,7 @@ export const useProvideSort = () => {
 		isFirstlySortedByAge,
 		toggleSortByAge,
 		toggleSortByName,
+		setIsFirstlySortedByName,
+		setIsFirstlySortedByAge
 	}
 };
